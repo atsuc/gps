@@ -46,6 +46,7 @@
         function (pos) {
           var location = "<li>" + "緯度：" + pos.coords.latitude + "</li>";
           location += "<li>" + "経度：" + pos.coords.longitude + "</li>";
+          location += "<li>" + mymap+ "</li>";
           document.getElementById("location").innerHTML = location;
           lat = pos.coords.latitude;
           lon = pos.coords.longitude;
