@@ -1,0 +1,80 @@
+<html>
+
+<head>
+  <style>
+    #mapid {
+      height: 500px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <ul id="location">
+  </ul>
+  <input type="button" value="定期的な位置情報の取得を停止" onclick="clearWatchPosition()" />
+  <input type="button" value="地図読み込み" onclick="initmap()" />
+  <input type="button" value="地図再読み込み" onclick="loadmap()" />
+
+  <div id="mapid"></div>
+
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin="" />
+
+  <!-- Make sure you put this AFTER Leaflet's CSS -->
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+
+
+  <script type="text/javascript">
+
+    var watchID;
+    var lat;
+    var lon;
+    var mymap;
+
+    if (navigator.geolocation) {
+
+      // 現在の位置情報を取得
+      watchID = navigator.geolocation.watchPosition(
+
+        // 位置情報の取得を成功した場合
+        function (pos) {
+          var location = "<li>" + "緯度：" + pos.coords.latitude + "</li>";
+          location += "<li>" + "経度：" + pos.coords.longitude + "</li>";
+          document.getElementById("location").innerHTML = location;
+          lat = pos.coords.latitude;
+          lon = pos.coords.longitude;
+        },
+        null,
+        { enableHighAccuracy: true }
+      );
+    } else {
+      window.alert("本ブラウザではGeolocationが使えません");
+    }
+    function clearWatchPosition() {
+      navigator.geolocation.clearWatch(watchID);
+    }
+
+    function initmap() {
+      mymap = L.map('mapid').setView([lat, lon], 13);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+      }).addTo(mymap);
+    }
+
+    function loadmap() {
+      mymap.setView([35, 139], 13);
+
+    }
+  </script>
+
+
+
+</body>
+
+</html>
