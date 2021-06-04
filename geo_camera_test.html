@@ -49,7 +49,7 @@
           document.getElementById("location").innerHTML = location;
           lat = pos.coords.latitude;
           lon = pos.coords.longitude;
-          console.log(mymap === undefined || mymap === null)
+          console.log(mymap)
           if (mymap !== undefined && mymap !== null) {
             mymap.setView([lat, lon], 15);
             if (mymap && addMarker) {
