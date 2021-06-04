@@ -35,6 +35,7 @@
     var lat;
     var lon;
     var mymap;
+    var addMarker = null;
 
     if (navigator.geolocation) {
 
@@ -48,6 +49,15 @@
           document.getElementById("location").innerHTML = location;
           lat = pos.coords.latitude;
           lon = pos.coords.longitude;
+          console.log(mymap === undefined || mymap === null)
+          if (mymap !== undefined && mymap !== null) {
+            mymap.setView([lat, lon], 15);
+            if (mymap && addMarker) {
+              mymap.removeLayer(addMarker);
+              addMarker = null;
+            }
+            addMarker = L.marker([lat, lon]).addTo(mymap);
+          }
         },
         null,
         { enableHighAccuracy: true }
